@@ -21,7 +21,7 @@ function setup() {
   for(let i = 0; i < 200; i ++)
     vehicles.push(new Vehicle(Math.floor(Math.random() * width), Math.floor(Math.random() * height)))
 
-  for(let i = 0; i < 100; i ++)
+  for(let i = 0; i < 50; i ++)
     env.foods.push(new Vector2D(Math.floor(Math.random() * width), Math.floor(Math.random() * height)))
 
   for(let i = 0; i < 50; i ++)
@@ -36,7 +36,7 @@ function draw() {
 
   // creating food over time
   // if(Math.random() < 0.2)
-  if(env.foods.length < 100)
+  if(env.foods.length < 50)
     env.foods.push(new Vector2D(Math.floor(Math.random() * width), Math.floor(Math.random() * height)))
 
   // creating food over time
@@ -68,8 +68,6 @@ function draw() {
 
     // checking if vehicle is dead
     if(vehicles[i].dead) {
-      // creating food after vehicle is dead
-      env.foods.push(new Vector2D(vehicles[i].position.x, vehicles[i].position.y))
       vehicles.splice(i, 1)
       continue
     }

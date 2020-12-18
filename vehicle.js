@@ -22,8 +22,8 @@ class Vehicle {
       this.dna = {
         seek_force: Math.random() * 2 - 1,
         flee_force: Math.random() * 2 - 1,
-        seek_view_radius: Math.floor(Math.random() * 200) + this.max_speed * 2,
-        flee_view_radius: Math.floor(Math.random() * 200) + this.max_speed * 2
+        seek_view_radius: Math.floor(Math.random() * 200 - this.max_speed * 2 - 1) + this.max_speed * 2,
+        flee_view_radius: Math.floor(Math.random() * 200 - this.max_speed * 2 - 1) + this.max_speed * 2
       }
     }
 
@@ -106,7 +106,7 @@ class Vehicle {
       distance = this.position.dist(poison)
       if(distance < this.max_speed) {
         env.poisons.splice(poison_index, 1)
-        this.hp -= 0.5
+        this.hp -= 0.2
       }
       steering_force = this.calc_steering_force(poison)
       this.apply_force(steering_force.mult(this.dna.flee_force))
