@@ -3,9 +3,9 @@ const height = 600
 let debug = false;
 
 
-let vehicles = []
 let center = new Vector2D(Math.floor(width / 2), Math.floor(height / 2))
 
+let vehicles = []
 
 let env = {
   foods: [],
@@ -86,10 +86,11 @@ function draw() {
 
 function check_boundary(vehicle) {
   const distance = 0
-  const target = new Vector2D(Math.floor(Math.random() * width), Math.floor(Math.random() * height))
 
   if(vehicle.position.x < distance || vehicle.position.y < distance || vehicle.position.x > width - distance|| vehicle.position.y > height - distance) {
-    const steering_force = vehicle.calc_steering_force(target)
+    const desired_vel = Vector2D.sub(center, vehicle.position)
+      .set_mag(vehicle.max_speed)
+    const steering_force = vehicle.calc_steering_force(desired_vel)
     vehicle.apply_force(steering_force)
   }
 }

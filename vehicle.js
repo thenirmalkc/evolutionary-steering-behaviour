@@ -55,10 +55,7 @@ class Vehicle {
 
 
   // calculates steering force
-  calc_steering_force(target) {
-    const desired_vel = Vector2D.sub(target, this.position)
-      .set_mag(this.max_speed)
-
+  calc_steering_force(desired_vel) {
     const steering_force = Vector2D.sub(desired_vel, this.velocity)
       .limit(this.max_force)
 
@@ -89,6 +86,7 @@ class Vehicle {
   perceive(env) {
     let [food, food_index] = this.find_nearest(env.foods, this.dna.seek_view_radius)
     let [poison, poison_index] = this.find_nearest(env.poisons, this.dna.flee_view_radius)
+    let desired_vel
     let steering_force
     let distance
 
@@ -98,7 +96,9 @@ class Vehicle {
         env.foods.splice(food_index, 1)
         this.hp += 0.1
       }
-      steering_force = this.calc_steering_force(food)
+      desired_vel = Vector2D.sub(food, this.position)
+        .set_mag(this.max_speed)
+      steering_force = this.calc_steering_force(desired_vel)
       this.apply_force(steering_force.mult(this.dna.seek_force))
     }
 
@@ -108,7 +108,10 @@ class Vehicle {
         env.poisons.splice(poison_index, 1)
         this.hp -= 0.2
       }
-      steering_force = this.calc_steering_force(poison)
+      desired_vel = Vector2D.sub(poison, this.position)
+        .set_mag(this.max_speed)
+        .mult(-1)
+      steering_force = this.calc_steering_force(desired_vel)
       this.apply_force(steering_force.mult(this.dna.flee_force))
     }
 
